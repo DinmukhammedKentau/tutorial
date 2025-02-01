@@ -1,0 +1,5 @@
+a,b = map(int,input().split())
+print(abs(a**2+b**2))
+print(abs(a**2-b**2))
+print(abs(a**2*b**2))
+print(abs(a**2/b**2))
