@@ -1,7 +1,17 @@
 import json
-def getRatingMore5p5():
-   with open(&quot;data.json&quot;)
-
+def sublistAbove5p5(movies):
+    sublist = []
+    for movie in movies:
+        if movie["imdb"]<5.5:
+            sublist.append(movie)
+    return sublist
+def connection():
+    with open("data.json","r") as file:
+        movies = json.load(file)
+        moviesList = movies["movies"]
+        file.close()
+    return moviesList
+"""
 movies = [
 {
 "name": "Usual Suspects",
@@ -78,4 +88,6 @@ movies = [
 "imdb": 7.2,
 "category": "Romance"
 }
-]
+]"""
+movies=connection()
+print(sublistAbove5p5(movies))
