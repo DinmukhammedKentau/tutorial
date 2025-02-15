@@ -1,14 +1,13 @@
-from itertools import permutations
-
+import itertools
 
 def print_permutations():
-    user_input = input("Enter a string: ")
-    perms = [''.join(p) for p in permutations(user_input)]
+    user_input = input("Engiz ")
+    permutations = itertools.permutations(user_input)
+    for perm in permutations:
+        result = ''
+        for char in perm:
+            result += char
+        print(result)
 
-    print("All permutations:")
-    for perm in perms:
-        print(perm)
 
-
-# Call the function
 print_permutations()
