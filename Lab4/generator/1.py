@@ -1,10 +1,9 @@
-import math
-def getSquares():
-    a=0
-    while True:
-      yield pow(a,2)
+
+def getSquares(n):
+    for i in range(1, n + 1):
+      yield i**2
 
 
 n=int(input("Enter N:"))
-for i in range(n):
-    print(next(getSquares()))
+for i in getSquares(n):
+    print(i)
