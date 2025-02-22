@@ -13,4 +13,4 @@ for element in allElements:
 print("Files", allFiles)
 print("Directories:", allDirs)
 print("all files and directories:", allElements)
-""".-точка агымдагы калтаны билдиреди"""
+""".-точка агымдагы папканы билдиреди"""
