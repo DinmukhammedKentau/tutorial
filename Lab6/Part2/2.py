@@ -1,0 +1,6 @@
+a=input()
+b=list(a)
+numA=list(filter(lambda x:x.isupper(),b))
+numA2=list(filter(lambda x : x.islower(),b))
+print(len(numA))
+print(len(numA2))
