@@ -3,7 +3,7 @@ text = "Hello world"
 print(text[:5])     # 'Hello' – алғашқы 5 әріп
 print(text[-5:])    # 'world' – соңғы 5 әріп
 print(text[:])      # 'Hello world' – толық жол
-
+print("HELLO",text[::])
 # 2. Кері айналдыру және аралықпен таңдау
 print(text[::-1])   # 'dlrow olleH' – кері жол
 print(text[::-2])   # 'drwolH' – кері бағытта әр екінші әріп
@@ -25,6 +25,7 @@ print(text[0])      # 'H' – алғашқы әріп
 print(text[-11])   # 'H' – соңынан санағанда да алғашқы әріп
 
 # 7. Күрделі мысалдар
+print(["QOE"])
 print(text[6:][::-1])  # 'dlrow' – "world" сөзін кері алу
 print(text[:5:2])     # 'Hlo' – "Hello" сөзінің әр екінші әрпін алу
 print(text[3:8])      # 'lo wo' – "lo wo" бөлігін алу

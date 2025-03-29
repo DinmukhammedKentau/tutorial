@@ -6,6 +6,7 @@ def get(text):
     else :
         print("No matches")
 get("ssajfas'kb")
+get("assadab")
 get("dslm;v")
 get("adlsvb")
 """a.*?b$ — Бұл өрнек 'a' әрпінен басталып, 

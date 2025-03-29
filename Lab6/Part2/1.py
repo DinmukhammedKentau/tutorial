@@ -9,3 +9,4 @@ prod = 1
 for i in numbers:
     prod *= i
 print(prod)"""
+"""2 аргументти тусинетин ол reduce"""

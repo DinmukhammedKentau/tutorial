@@ -5,3 +5,4 @@ with open("input.txt","r",encoding="utf-8") as file:
          print("FOUND!")
      else :
          print("NOT FOUND!")
+"""encoding="utf-8" — файлдағы қазақша, орысша символдарды дұрыс оқу үшін."""

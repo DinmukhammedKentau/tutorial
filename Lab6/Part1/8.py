@@ -11,3 +11,5 @@ else:
     print("Executable", os.access(path, os.X_OK))
     if os.access(path, os.R_OK) and os.access(path, os.W_OK) and os.access(path, os.X_OK):
      os.remove(path)
+     """os.rmdir() - бос папканы оширеди"""
+     """os.remove() - кез келген файлды ошире алады"""
