@@ -1,156 +1,139 @@
-import pygame
-import sys
+import random, pygame, time
+
+pygame.init()
+
+width = 600
+height = 400
+size = (width, height)
+screen = pygame.display.set_mode(size)
+
+white = (255, 255, 255)
+black = (0, 0, 0)
+red = (255, 0, 0)
+blue = (0, 0, 255)
+green = (0, 255, 0)
+bg = (138, 140, 168)
+
+snake_block = 10  # жыланның және тамақтың 1 клеткасының размеры
+snake_speed = 15
+
+clock = pygame.time.Clock()  # ойынның жылдамдығын басқару
+
+score_style = pygame.font.SysFont("arial", 30)
+message_style = pygame.font.SysFont("arial", 20)
 
 
-def main():
-    pygame.init()
+def total_score(score):
+    score_value = score_style.render("Your score: " + str(score), True, blue)
+    screen.blit(score_value, [0, 0])  # сол жақ төбеге ұпайды шығарамыз
 
-    size = w, h = 800, 800
-    screen = pygame.display.set_mode(size)
-    clock = pygame.time.Clock()
-    run = True
 
-    backround = (0, 0, 0)
-    blue = (0, 0, 255)
-    red = (255, 0, 0)
-    green = (0, 255, 0)
-    white = (255, 255, 255)
+def total_level(level):
+    level_value = score_style.render("Your level: " + str(level), True, blue)
+    screen.blit(level_value, [width - 150, 0])
 
-    points = []
-    colours = [blue, red, green, white]
 
-    pressed = pygame.key.get_pressed()
-    radius = 15
-    screen.fill(backround)
-    color = backround
-    start_pos = None
-    rect = False
-    circle = False
-    pen = True
+def our_snake(snake_block, snake_list):
+    for coordinate in snake_list:
+        pygame.draw.rect(screen, black, [coordinate[0], coordinate[1], snake_block, snake_block])
 
-    while run:
+
+def message(text, color):
+    text_to_print = message_style.render(text, True, color)
+    screen.blit(text_to_print, [width / 4, height / 2])
+
+def playAgain():
+    global snake_speed
+    game_over = False
+    game_close = False
+
+    # жыланның бастапқы позициясы
+    x1 = width / 2
+    y1 = height / 2
+
+    # жыланның бағытын ауыстыру
+    x1_change = 0
+    y1_change = 0
+
+    snake_list = []
+    length_of_snake = 1
+
+    level = 1
+    food_counter = 0
+
+    food_x = round(random.randrange(0, width - snake_block) / 10.0) * 10.0
+    food_y = round(random.randrange(0, height - snake_block) / 10.0) * 10.0
+
+    while not game_over:
+
+        while game_close:
+            screen.fill(red)
+            message("YOU LOST! PRESS P-PLAY AGAIN OR Q-QUIT", black)
+            total_score(length_of_snake - 1)
+            pygame.display.update()
+
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_p:
+                        snake_speed = 15
+                        playAgain()
+                    if event.key == pygame.K_q:
+                        game_over = True
+                        game_over = False
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                run = False
+                game_over = True
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    run = False
+                if event.key == pygame.K_UP:
+                    x1_change = 0
+                    y1_change = -snake_block
+                if event.key == pygame.K_DOWN:
+                    x1_change = 0
+                    y1_change = snake_block
+                if event.key == pygame.K_LEFT:
+                    x1_change = -snake_block
+                    y1_change = 0
+                if event.key == pygame.K_RIGHT:
+                    x1_change = snake_block
+                    y1_change = 0
+        if x1 >= width or x1 < 0 or y1 >= height or y1 < 0:
+            game_close = True
 
-            i = 0
-            for col in colours:
-                pygame.draw.rect(screen, col, pygame.Rect(i, 0, 50, 50))
-                i += 50
+        x1 += x1_change
+        y1 += y1_change
+        screen.fill(bg)
+        pygame.draw.rect(screen, green, [food_x, food_y, snake_block, snake_block])
 
-            pygame.draw.circle(screen, (102, 102, 102), (275, 25), 25)
+        snake_head = []
+        snake_head.append(x1)
+        snake_head.append(y1)
+        snake_list.append(snake_head)
 
-            if rect:
-                pygame.draw.rect(screen, (80, 80, 80), pygame.Rect(201, 0, 50, 50))
-            if not rect:
-                pygame.draw.rect(screen, (102, 102, 102), pygame.Rect(201, 0, 50, 50))
+        if len(snake_list) > length_of_snake:  # егер жылан тамак жемесе
+            del snake_list[0]
 
-            if circle:
-                pygame.draw.circle(screen, (80, 80, 80), (275, 25), 25)
-            if not circle:
-                pygame.draw.circle(screen, (102, 102, 102), (275, 25), 25)
+        for x in snake_list[:-1]:  # жыланның денесіне соғылса
+            if x == snake_head:
+                game_close = True
 
-            coor = pygame.mouse.get_pos()
-            if coor[0] > 0 and coor[1] > 0 and coor[0] <= 50 and coor[1] <= 50:
-                if pygame.mouse.get_pressed()[0]:
-                    color = blue
-                    pen = True
-                    rect = False
-                    circle = False
+        our_snake(snake_block, snake_list)
+        total_score(length_of_snake - 1)
+        total_level(level)
 
-            if coor[0] > 50 and coor[1] > 0 and coor[0] <= 100 and coor[1] <= 50:
-                if pygame.mouse.get_pressed()[0]:
-                    color = red
-                    rect = False
-                    circle = False
-                    pen = True
+        pygame.display.update()
 
-            if coor[0] > 100 and coor[1] > 0 and coor[0] <= 150 and coor[1] <= 50:
-                if pygame.mouse.get_pressed()[0]:
-                    color = green
-                    pen = True
-                    rect = False
-                    circle = False
+        if x1 == food_x and y1 == food_y:
+            food_counter += 1
+            length_of_snake += 1
+            food_x = round(random.randrange(0, width - snake_block) / 10.0) * 10.0
+            food_y = round(random.randrange(0, height - snake_block) / 10.0) * 10.0
+            if food_counter % 3 == 0:
+                level += 1
+                snake_speed += 5
 
-            if coor[0] > 150 and coor[1] > 0 and coor[0] <= 200 and coor[1] <= 50:
-                if pygame.mouse.get_pressed()[0]:
-                    color = backround
-                    pen = True
-                    rect = False
-                    circle = False
+        clock.tick(snake_speed)
+    pygame.quit()
+    quit()
 
-            if coor[0] > 200 and coor[1] > 0 and coor[0] <= 250 and coor[1] <= 50:
-                if pygame.mouse.get_pressed()[0]:
-                    rect = not rect
-                    circle = False
-                    pen = False
-            if coor[0] > 250 and coor[1] > 0 and coor[0] <= 300 and coor[1] <= 50:
-                if pygame.mouse.get_pressed()[0]:
-                    circle = not circle
-                    rect = False
-                    pen = False
-
-            if event.type == pygame.MOUSEBUTTONDOWN and rect and coor[1] > 50:
-                if start_pos is None:
-                    start_pos = event.pos
-                else:
-
-                    end_pos = event.pos
-                    width = end_pos[0] - start_pos[0]
-                    height = end_pos[1] - start_pos[1]
-
-                    pygame.draw.rect(screen, color, (start_pos, (width, height)))
-
-                    start_pos = None
-
-            if event.type == pygame.MOUSEBUTTONDOWN and circle and coor[1] > 50:
-                if start_pos is None:
-                    start_pos = event.pos
-                else:
-
-                    end_pos = event.pos
-                    width = end_pos[0] - start_pos[0]
-                    height = end_pos[1] - start_pos[1]
-
-                    pygame.draw.circle(screen, color, (start_pos[0] + width / 2, start_pos[1] + height / 2),
-                                       min(width, height) / 2)
-
-                    start_pos = None
-
-            if event.type == pygame.MOUSEMOTION:
-
-                position = event.pos
-                points = points + [position]
-                points = points[-2:]
-                if pygame.mouse.get_pressed()[0] and coor[1] > 50 and pen:
-                    line(screen, 0, points[0], points[1], radius, color)
-
-            if event.type == pygame.KEYDOWN and (event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT):
-                pressed = pygame.key.get_pressed()
-                if pressed[pygame.K_RIGHT] and radius <= 50:
-                    radius = min(50, radius + 1)
-                if pressed[pygame.K_LEFT] and radius > 0:
-                    radius = max(1, radius - 1)
-
-        pygame.display.flip()
-
-        clock.tick(60)
-
-
-def line(screen, index, start, end, radius, colors):
-    dx = start[0] - end[0]
-    dy = start[1] - end[1]
-    iteration = max(abs(dx), abs(dy))
-
-    for i in range(iteration):
-        progress = 1.0 * i / iteration
-        aprogress = 1 - progress
-        x = int(aprogress * start[0] + progress * end[0])
-        y = int(aprogress * start[1] + progress * end[1])
-        pygame.draw.circle(screen, colors, (x, y), radius)
-
-
-main()
+playAgain() # start game

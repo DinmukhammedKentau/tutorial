@@ -18,13 +18,13 @@ screen = pygame.display.set_mode(size)
 white = (255, 255, 255)
 red = (255, 0, 0)
 screen.fill(white)
-backgroungImage = pygame.image.load(r"images\AnimatedStreet (2).png")
+backgroungImage = pygame.image.load(r"../../Lab8qaitalau/images\AnimatedStreet (2).png")
 
 
 class Enemy(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.image = pygame.image.load("images/Enemy (2).png")
+        self.image = pygame.image.load("../../Lab8qaitalau/Enemy (2).png")
         self.rect = self.image.get_rect()
         self.rect.center = (random.randint(45, windowWidth - 45), 0)
 
@@ -37,10 +37,11 @@ class Enemy(pygame.sprite.Sprite):
             self.rect.center = (random.randint(45, windowWidth - 45), 0)
 
 
+
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.image = pygame.image.load("images/Player (2).png")
+        self.image = pygame.image.load("../../Lab8qaitalau/Player (2).png")
         self.rect = self.image.get_rect()
         self.rect.center = (200, 520)
 
@@ -64,7 +65,7 @@ class Coin(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
 
-        self.image=pygame.transform.scale(pygame.image.load("images/coin (1).png"),(100, 100))
+        self.image=pygame.transform.scale(pygame.image.load("../../Lab8qaitalau/images/coin (1).png"), (100, 100))
 
         self.rect = self.image.get_rect()
         self.rect.center = (random.randint(45, windowWidth - 45), 0)
@@ -73,7 +74,7 @@ class Coin(pygame.sprite.Sprite):
             global coinCounter
             self.rect.move_ip(0, enemySpeed)
             if self.rect.top > windowHeight:
-                coinCounter += 1
+                coinCounter -= 1
                 coin.rect.center = (random.randint(30, windowWidth - 30), 0)
 
 
